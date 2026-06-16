@@ -1,0 +1,136 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Warehouse
+{
+private:
+    int itemID;
+    string itemName;
+    int quantity;
+    string location;
+
+    static int totalItems;
+
+public:
+
+    void addItem()
+    {
+        cout << "\nEnter Item ID: ";
+        cin >> itemID;
+
+        while (itemID <= 0)
+        {
+            cout << "Invalid Item ID. Enter again: ";
+            cin >> itemID;
+        }
+
+        cin.ignore();
+
+        cout << "Enter Item Name: ";
+        getline(cin, itemName);
+
+        cout << "Enter Quantity: ";
+        cin >> quantity;
+
+        while (quantity < 0)
+        {
+            cout << "Invalid Quantity. Enter again: ";
+            cin >> quantity;
+        }
+
+        cin.ignore();
+
+        cout << "Enter Location: ";
+        getline(cin, location);
+
+        totalItems++;
+    }
+
+    void updateInventory()
+    {
+        int newQuantity;
+
+        cout << "\nEnter New Quantity: ";
+        cin >> newQuantity;
+
+        while (newQuantity < 0)
+        {
+            cout << "Invalid Quantity. Enter again: ";
+            cin >> newQuantity;
+        }
+
+        quantity = newQuantity;
+    }
+
+    void removeInventory()
+    {
+        quantity = 0;
+
+        cout << "\nStock removed successfully.\n";
+    }
+
+    void display()
+    {
+        cout << "\n----- Item Details -----";
+
+        cout << "\nItem ID   : "
+             << itemID;
+
+        cout << "\nItem Name : "
+             << itemName;
+
+        cout << "\nQuantity  : "
+             << quantity;
+
+        cout << "\nLocation  : "
+             << location;
+
+        cout << "\n------------------------\n";
+    }
+
+    static void showTotalItems()
+    {
+        cout << "\nTotal Items Stored: "
+             << totalItems
+             << endl;
+    }
+};
+
+int Warehouse::totalItems = 0;
+
+int main()
+{
+    int n;
+
+    cout << "Enter Number of Items: ";
+    cin >> n;
+
+    while (n <= 0)
+    {
+        cout << "Invalid Number. Enter again: ";
+        cin >> n;
+    }
+
+    Warehouse items[n];
+
+    for (int i = 0; i < n; i++)
+    {
+        cout << "\nItem "
+             << i + 1;
+
+        items[i].addItem();
+    }
+
+    cout << "\n===== INVENTORY REPORT =====";
+
+    for (int i = 0; i < n; i++)
+    {
+        items[i].display();
+    }
+
+    Warehouse::showTotalItems();
+
+    return 0;
+}
