@@ -1,0 +1,126 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Event
+{
+private:
+    string eventName;
+    string participantName;
+    int registrationID;
+
+    static int totalParticipants;
+
+public:
+
+    void registerParticipant()
+    {
+        cin.ignore();
+
+        cout << "\nEnter Event Name: ";
+        getline(cin, eventName);
+
+        cout << "Enter Participant Name: ";
+        getline(cin, participantName);
+
+        cout << "Enter Registration ID: ";
+        cin >> registrationID;
+
+        while (registrationID <= 0)
+        {
+            cout << "Invalid Registration ID. Enter again: ";
+            cin >> registrationID;
+        }
+
+        totalParticipants++;
+    }
+
+    int getRegistrationID()
+    {
+        return registrationID;
+    }
+
+    void display()
+    {
+        cout << "\n----- Registration Details -----";
+
+        cout << "\nEvent Name       : "
+             << eventName;
+
+        cout << "\nParticipant Name : "
+             << participantName;
+
+        cout << "\nRegistration ID  : "
+             << registrationID;
+
+        cout << "\n--------------------------------\n";
+    }
+
+    static void showTotalParticipants()
+    {
+        cout << "\nTotal Participants: "
+             << totalParticipants
+             << endl;
+    }
+};
+
+int Event::totalParticipants = 0;
+
+int main()
+{
+    int n;
+
+    cout << "Enter Number of Participants: ";
+    cin >> n;
+
+    while (n <= 0)
+    {
+        cout << "Invalid Number. Enter again: ";
+        cin >> n;
+    }
+
+    Event registrations[n];
+
+    for (int i = 0; i < n; i++)
+    {
+        bool duplicate;
+
+        do
+        {
+            duplicate = false;
+
+            cout << "\nParticipant "
+                 << i + 1;
+
+            registrations[i].registerParticipant();
+
+            for (int j = 0; j < i; j++)
+            {
+                if (registrations[i].getRegistrationID() ==
+                    registrations[j].getRegistrationID())
+                {
+                    duplicate = true;
+
+                    cout << "\nDuplicate Registration ID found.";
+
+                    cout << "\nPlease enter again.\n";
+
+                    break;
+                }
+            }
+
+        } while (duplicate);
+    }
+
+    cout << "\n===== EVENT REPORT =====";
+
+    for (int i = 0; i < n; i++)
+    {
+        registrations[i].display();
+    }
+
+    Event::showTotalParticipants();
+
+    return 0;
+}
