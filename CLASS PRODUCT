@@ -1,0 +1,130 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Product
+{
+private:
+    string productName;
+    double price;
+    int quantity;
+
+    static int totalProducts;
+
+public:
+
+    // Input product details
+    void getData()
+    {
+        cin.ignore();
+
+        cout << "\nEnter Product Name: ";
+        getline(cin, productName);
+
+        cout << "Enter Price: ";
+        cin >> price;
+
+        while (price <= 0)
+        {
+            cout << "Invalid Price. Enter again: ";
+            cin >> price;
+        }
+
+        cout << "Enter Quantity: ";
+        cin >> quantity;
+
+        while (quantity <= 0)
+        {
+            cout << "Invalid Quantity. Enter again: ";
+            cin >> quantity;
+        }
+
+        totalProducts++;
+    }
+
+    // Calculate product total
+    double calculateTotal()
+    {
+        return price * quantity;
+    }
+
+    // Display product details
+    void display()
+    {
+        cout << "\n----- Product Details -----";
+
+        cout << "\nProduct Name : "
+             << productName;
+
+        cout << "\nPrice        : Rs."
+             << price;
+
+        cout << "\nQuantity     : "
+             << quantity;
+
+        cout << "\nProduct Cost : Rs."
+             << calculateTotal();
+
+        cout << "\n---------------------------\n";
+    }
+
+    // Static function
+    static void showTotalProducts()
+    {
+        cout << "\nTotal Products Added: "
+             << totalProducts
+             << endl;
+    }
+};
+
+// Initialize static member
+int Product::totalProducts = 0;
+
+int main()
+{
+    int n;
+
+    cout << "Enter Number of Products: ";
+    cin >> n;
+
+    while (n <= 0)
+    {
+        cout << "Invalid Number. Enter again: ";
+        cin >> n;
+    }
+
+    Product cart[n];
+
+    double totalBill = 0;
+
+    // Input details
+    for (int i = 0; i < n; i++)
+    {
+        cout << "\nProduct "
+             << i + 1;
+
+        cart[i].getData();
+    }
+
+    // Display details and calculate bill
+    cout << "\n===== SHOPPING CART =====";
+
+    for (int i = 0; i < n; i++)
+    {
+        cart[i].display();
+
+        totalBill += cart[i].calculateTotal();
+    }
+
+    // Final bill
+    cout << "\n===== BILL SUMMARY =====";
+
+    cout << "\nTotal Bill Amount : Rs."
+         << totalBill
+         << endl;
+
+    Product::showTotalProducts();
+
+    return 0;
+}
