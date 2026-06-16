@@ -1,0 +1,131 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Member
+{
+private:
+    int memberID;
+    string name;
+    string planType;
+    double fee;
+
+    static int totalMembers;
+
+public:
+
+    bool validPlan(string plan)
+    {
+        return (plan == "Basic" ||
+                plan == "Standard" ||
+                plan == "Premium");
+    }
+
+    void inputDetails()
+    {
+        cout << "\nEnter Member ID: ";
+        cin >> memberID;
+
+        while (memberID <= 0)
+        {
+            cout << "Invalid ID. Enter again: ";
+            cin >> memberID;
+        }
+
+        cin.ignore();
+
+        cout << "Enter Member Name: ";
+        getline(cin, name);
+
+        cout << "Enter Plan ";
+        cout << "(Basic/Standard/Premium): ";
+
+        cin >> planType;
+
+        while (!validPlan(planType))
+        {
+            cout << "Invalid Plan. Enter again: ";
+            cin >> planType;
+        }
+
+        calculateFee();
+
+        totalMembers++;
+    }
+
+    void calculateFee()
+    {
+        if (planType == "Basic")
+            fee = 1000;
+
+        else if (planType == "Standard")
+            fee = 2000;
+
+        else if (planType == "Premium")
+            fee = 3000;
+    }
+
+    void display()
+    {
+        cout << "\n----- Membership Details -----";
+
+        cout << "\nMember ID : "
+             << memberID;
+
+        cout << "\nName      : "
+             << name;
+
+        cout << "\nPlan Type : "
+             << planType;
+
+        cout << "\nFee       : Rs."
+             << fee;
+
+        cout << "\n------------------------------\n";
+    }
+
+    static void showTotalMembers()
+    {
+        cout << "\nTotal Active Members: "
+             << totalMembers
+             << endl;
+    }
+};
+
+int Member::totalMembers = 0;
+
+int main()
+{
+    int n;
+
+    cout << "Enter Number of Members: ";
+    cin >> n;
+
+    while (n <= 0)
+    {
+        cout << "Invalid Number. Enter again: ";
+        cin >> n;
+    }
+
+    Member members[n];
+
+    for (int i = 0; i < n; i++)
+    {
+        cout << "\nMember "
+             << i + 1;
+
+        members[i].inputDetails();
+    }
+
+    cout << "\n===== MEMBERSHIP REPORT =====";
+
+    for (int i = 0; i < n; i++)
+    {
+        members[i].display();
+    }
+
+    Member::showTotalMembers();
+
+    return 0;
+}
